@@ -4,10 +4,9 @@ using System.Text;
 
 namespace PokerShowdown.Shared
 {
-    interface IGame
+    public interface IGame
     {
         void ComparePlayerHands();
-        void WriteWinnersToConsole();
-        void CreatePlayerList();
+        void AddPlayer(string playerInput);
     }
 }

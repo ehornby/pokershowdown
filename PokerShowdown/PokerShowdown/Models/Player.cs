@@ -7,19 +7,30 @@ namespace PokerShowdown.Shared
     public class Player
     {
         public string Name { get; }
-        public Hand Hand { get; }
+        public Hand Hand { get; private set; }
 
-        public Player(string userInput)
+        public Player() { }
+
+        /// <summary>
+        /// Creates a new Player object
+        /// </summary>
+        /// <param name="playerData">Player name and cards in the following format: "NAME, CARD, CARD, CARD, CARD, CARD"</param>
+        public Player(string playerData)
         {
-            var splitInput = userInput.Split(',', StringSplitOptions.RemoveEmptyEntries).ToList();
-            Name = splitInput.First();
+            var splitPlayerData = playerData
+                .Split(',', StringSplitOptions.RemoveEmptyEntries)
+                .ToList();
 
-            splitInput.RemoveAt(0);
-            for (int i = 0; i < splitInput.Count; i++)
+            Name = splitPlayerData.First();
+
+            var rawCardData = splitPlayerData.Skip(1).ToList();
+
+            for (int i = 0; i < rawCardData.Count; i++)
             {
-                splitInput[i] = splitInput[i].Trim();
+                rawCardData[i] = rawCardData[i].Trim();
             }
-            Hand = new Hand(splitInput);
+
+            Hand = new Hand(rawCardData);
         }
     }
 }

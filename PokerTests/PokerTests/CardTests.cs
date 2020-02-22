@@ -36,5 +36,11 @@ namespace PokerTests
             Assert.Throws<RankNotValidException>(() => new Card("HD"));
             Assert.Throws<RankNotValidException>(() => new Card("0C"));
         }
+
+        [Fact]
+        public void ThrowsExceptionWhenRawDataIncorrectLength()
+        {
+            Assert.Throws<CardDataInvalidException>(() => new Card("10D"));
+        }
     }
 }

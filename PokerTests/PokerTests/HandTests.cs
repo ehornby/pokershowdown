@@ -33,8 +33,8 @@ namespace PokerTests
             };
             for (int i = 0; i < expected.Count; i++)
             {
-                Assert.Equal(hand.Cards[i].Rank, expected[i].Rank);
-                Assert.Equal(hand.Cards[i].Suit, expected[i].Suit);
+                Assert.Equal(expected[i].Rank, hand.Cards[i].Rank);
+                Assert.Equal(expected[i].Suit, hand.Cards[i].Suit);
             }
         }
 
@@ -62,6 +62,20 @@ namespace PokerTests
         }
 
         [Fact]
+        public void DetectsDuplicateCards()
+        {
+            var input = new List<string>()
+            {
+                "5C",
+                "4D",
+                "4D",
+                "7S",
+                "AS"
+            };
+            Assert.Throws<DuplicateCardException>(() => new Hand(input));
+        }
+
+        [Fact]
         public void IdentifiesFlush()
         {
             var input = new List<string>()
@@ -77,7 +91,7 @@ namespace PokerTests
         }
 
         [Fact]
-        public void IdentifiesThreeOfAKind()
+        public void IdentifiesThreeOfAKindWithThreeMatching()
         {
             var input = new List<string>()
             {
@@ -85,6 +99,36 @@ namespace PokerTests
                 "3D",
                 "3S",
                 "QH",
+                "AH"
+            };
+            var hand = new Hand(input);
+            Assert.Equal(HandRank.ThreeOfAKind, hand.HandRank);
+        }
+
+        [Fact]
+        public void IdentifyThreeOfAKindWithFourMatching()
+        {
+            var input = new List<string>()
+            {
+                "3H",
+                "3D",
+                "3S",
+                "3C",
+                "AH"
+            };
+            var hand = new Hand(input);
+            Assert.Equal(HandRank.ThreeOfAKind, hand.HandRank);
+        }
+
+        [Fact]
+        public void IdentifyThreeOfAKindWithAdditionalPair()
+        {
+            var input = new List<string>()
+            {
+                "3H",
+                "3D",
+                "3S",
+                "AC",
                 "AH"
             };
             var hand = new Hand(input);
@@ -100,6 +144,22 @@ namespace PokerTests
                 "3D",
                 "4C",
                 "8D",
+                "KS"
+            };
+
+            var hand = new Hand(input);
+            Assert.Equal(HandRank.OnePair, hand.HandRank);
+        }
+
+        [Fact]
+        public void IdentifiesOnePairWithAdditionalPair()
+        {
+            var input = new List<string>()
+            {
+                "3H",
+                "3D",
+                "4C",
+                "4D",
                 "KS"
             };
 

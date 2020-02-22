@@ -13,6 +13,11 @@ namespace PokerShowdown.Models
 
         public Card(string rawCardValue)
         {
+            if (rawCardValue.Length != Constants.RAW_CARD_INPUT_SIZE)
+            {
+                throw new CardDataInvalidException("Raw card data must be two characters in length");
+            }
+
             Rank = ParseCardRankFromRaw(rawCardValue);
             Suit = ParseSuitFromRaw(rawCardValue);
         }
@@ -20,6 +25,7 @@ namespace PokerShowdown.Models
         public CardRank ParseCardRankFromRaw(string rawCardValue)
         {
             var cardRank = rawCardValue[0].ToString();
+
             switch (cardRank)
             {
                 case "T":
@@ -47,6 +53,7 @@ namespace PokerShowdown.Models
         public Suit ParseSuitFromRaw(string rawCardValue)
         {
             var cardSuit = rawCardValue[1].ToString();
+
             switch (cardSuit)
             {
                 case "C":

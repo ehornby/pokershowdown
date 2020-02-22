@@ -15,7 +15,7 @@ namespace PokerShowdown.Shared
 
         public static bool IsThreeOfAKind(List<Card> cards)
         {
-            return cards.GroupBy(c => c.Rank).Any(g => g.Count() == 3);
+            return cards.GroupBy(c => c.Rank).Any(g => g.Count() >= 3);
         }
 
         public static bool IsOnePair(List<Card> cards)
