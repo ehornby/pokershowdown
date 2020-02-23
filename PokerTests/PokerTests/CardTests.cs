@@ -184,13 +184,13 @@ namespace PokerTests
         }
 
         [Fact]
-        public void ThrowsSuitNotValidException()
+        public void ThrowsExceptionWhenSuitDataInvalid()
         {
             Assert.Throws<SuitNotValidException>(() => new Card("6X"));
         }
 
         [Fact]
-        public void ThrowsRankNotValidException()
+        public void ThrowsExceptionWhenRankDataInvalid()
         {
             Assert.Throws<RankNotValidException>(() => new Card("HD"));
         }
