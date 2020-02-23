@@ -1,9 +1,7 @@
 ﻿using PokerShowdown.Models;
 using PokerShowdown.Shared.Constants;
 using PokerShowdown.Shared.Exceptions;
-using System;
 using System.Collections.Generic;
-using System.Text;
 using Xunit;
 
 namespace PokerTests
@@ -39,7 +37,7 @@ namespace PokerTests
         }
 
         [Fact]
-        public void ThrowsInvalidHandSizeException()
+        public void ThrowsInvalidHandSizeExceptionForTooFewCards()
         {
             var inputFourCards = new List<string>()
             {
@@ -48,6 +46,12 @@ namespace PokerTests
                 "KC",
                 "9C"
             };
+            Assert.Throws<InvalidHandLengthException>(() => new Hand(inputFourCards));
+        }
+
+        [Fact]
+        public void ThrowsInvalidHandSizeExceptionForTooManyCards()
+        {
             var inputSixCards = new List<string>()
             {
                 "4C",
@@ -57,7 +61,6 @@ namespace PokerTests
                 "2D",
                 "AS"
             };
-            Assert.Throws<InvalidHandLengthException>(() => new Hand(inputFourCards));
             Assert.Throws<InvalidHandLengthException>(() => new Hand(inputSixCards));
         }
 

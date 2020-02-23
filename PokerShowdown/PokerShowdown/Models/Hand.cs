@@ -1,10 +1,8 @@
 ﻿using PokerShowdown.Shared;
 using PokerShowdown.Shared.Constants;
 using PokerShowdown.Shared.Exceptions;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 
 namespace PokerShowdown.Models
 {
@@ -49,8 +47,9 @@ namespace PokerShowdown.Models
         /// <summary>
         /// Creates Cards property for an instance of Hand object
         /// </summary>
-        /// <param name="rawCardData"></param>
+        /// <param name="rawCardData">List<Card> containing raw card data</param>
         /// <returns>List<Card> of Cards making up the Hand</returns>
+        /// <exception cref="InvalidHandLengthException">Thrown when hand size does not match expected hand size</exception>
         private List<Card> CreateCardsFromRaw(List<string> rawCardData)
         {
             ValidateNoDuplicateCards(rawCardData);
@@ -73,6 +72,7 @@ namespace PokerShowdown.Models
         /// Checks for duplicates prior to creating a new Hand and throws a DuplicateCardException
         /// </summary>
         /// <param name="rawCardData">List<string> of raw card values</param>
+        /// <exception cref="DuplicateCardException">Thrown when raw data for a hand contains duplicate cards</exception>
         private void ValidateNoDuplicateCards(List<string> rawCardData)
         {
             var duplicateCards = rawCardData.Distinct().Count() != rawCardData.Count;

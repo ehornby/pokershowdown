@@ -1,12 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System.Collections.Generic;
 
 namespace PokerShowdown.Shared
 {
     public interface IGame
     {
-        void ComparePlayerHands();
+        List<Player> DetermineWinningPlayers();
         void AddPlayer(string playerInput);
+        List<Player> TieBreakHands(List<Player> playersWithHighestRankedHand);
     }
 }

@@ -1,7 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using PokerShowdown.Shared.Constants;
 
 namespace PokerShowdown.Shared
@@ -9,34 +7,40 @@ namespace PokerShowdown.Shared
     public class Game : IGame
     {
         public List<Player> Players { get; private set; }
-        public List<Player> WinningPlayers { get; private set; }
+
+        public Game()
+        {
+            Players = new List<Player>();
+        }
 
         /// <summary>
         /// Compares Hands from each Player and sets WinningPlayers property
         /// </summary>
-        public void ComparePlayerHands()
+        public List<Player> DetermineWinningPlayers()
         {
             var winningHand = Players.Max(p => p.Hand.HandRank);
+            var winningPlayers = new List<Player>();
             var playersWithHighestRankedHand = Players.Where(p => p.Hand.HandRank == winningHand).ToList();
 
             if (playersWithHighestRankedHand.Count == 1)
             {
-                WinningPlayers = playersWithHighestRankedHand;
+                winningPlayers = playersWithHighestRankedHand;
             }
             else
             {
-                WinningPlayers = TieBreakHands(playersWithHighestRankedHand);
+                winningPlayers = TieBreakHands(playersWithHighestRankedHand);
             }
+
+            return winningPlayers;
         }
 
         /// <summary>
         /// Adds a new Player to the Players property
         /// </summary>
-        /// <param name="playerData">Player name and cards in the following format: "NAME, CARD, CARD, CARD, CARD"</param>
+        /// <param name="playerData">Player name and cards in the following format: "NAME, CARD, CARD, CARD, CARD, CARD"</param>
         public void AddPlayer(string playerData)
         {
             Players.Add(new Player(playerData));
-            WinningPlayers = null;
         }
 
         public List<Player> TieBreakHands(List<Player> playersWithHighestRankedHand)

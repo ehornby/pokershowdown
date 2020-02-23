@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace PokerShowdown.Shared.Constants
+﻿namespace PokerShowdown.Shared.Constants
 {
     public static class Constants
     {
