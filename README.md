@@ -3,8 +3,8 @@
 ## Assumptions
 
 * User of this library will ensure that raw input is validated prior to creating a new instance of the Player class
-* User of this library will validate that duplicate cards will not be added across multiple players
-* Hands containing four of the same card will be classified as Three of a Kind
+* User of this library will validate that the same card will not be included in multiple players' hands
+* Hands containing three or more of the same card will be classified as Three of a Kind
 * Hands containing three of a kind and an additional pair will be classified as Three of a Kind
 * Hands containing two pairs will be classified as One Pair
 * If multiple players hold a hand of identical rank and strength, multiple winners will be identified
@@ -33,4 +33,4 @@ pokerGame.AddPlayer("Player3, 9C, 9D, AH, KH, 2S");
 var pokerGameWinners = pokerGame.DetermineWinningPlayers();
 ```
 
-The expected value of `pokerGameWinners` is a `List<Player>` containing a single `Player` object, with `Name` "Player2".
+The expected value of `pokerGameWinners` after running the above example code is a `List<Player>` containing a single `Player` object, with `Name` "Player2".
