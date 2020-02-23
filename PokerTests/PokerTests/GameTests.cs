@@ -40,6 +40,38 @@ namespace PokerTests
         }
 
         [Fact]
+        public void GameIntegrationTestWithThreeOfAKindWinnerWhenWinnerHasFourOfAKind()
+        {
+            IGame pokerGame = new Game();
+            pokerGame.AddPlayer("Player1, 4C, 7S, 8D, TC, 6C");
+            pokerGame.AddPlayer("Player2, 6D, 6H, 6S, 6C, 8H");
+            pokerGame.AddPlayer("Player3, 9C, 9D, AH, KH, 2S");
+
+            var expectedWinningPlayers = new List<Player>();
+            expectedWinningPlayers.Add(new Player("Player2, 6D, 6H, 6S, 6C, 8H"));
+
+            var pokerGameWinners = pokerGame.DetermineWinningPlayers();
+
+            pokerGameWinners.Should().BeEquivalentTo(expectedWinningPlayers);
+        }
+
+        [Fact]
+        public void GameIntegrationTestWithThreeOfAKindWinnerWhenWinnerHasAdditionalPair()
+        {
+            IGame pokerGame = new Game();
+            pokerGame.AddPlayer("Player1, 4C, 7S, 8D, TC, 6C");
+            pokerGame.AddPlayer("Player2, 6D, 6H, 6S, 8C, 8H");
+            pokerGame.AddPlayer("Player3, 9C, 9D, AH, KH, 2S");
+
+            var expectedWinningPlayers = new List<Player>();
+            expectedWinningPlayers.Add(new Player("Player2, 6D, 6H, 6S, 8C, 8H"));
+
+            var pokerGameWinners = pokerGame.DetermineWinningPlayers();
+
+            pokerGameWinners.Should().BeEquivalentTo(expectedWinningPlayers);
+        }
+
+        [Fact]
         public void GameIntegrationTestWithOnePairWinner()
         {
             IGame pokerGame = new Game();
@@ -49,6 +81,22 @@ namespace PokerTests
 
             var expectedWinningPlayers = new List<Player>();
             expectedWinningPlayers.Add(new Player("Player2, 6D, 2H, 6S, 5C, 8H"));
+
+            var pokerGameWinners = pokerGame.DetermineWinningPlayers();
+
+            pokerGameWinners.Should().BeEquivalentTo(expectedWinningPlayers);
+        }
+
+        [Fact]
+        public void GameIntegrationTestWithOnePairWinnerWhenWinnerHasTwoPair()
+        {
+            IGame pokerGame = new Game();
+            pokerGame.AddPlayer("Player1, 4C, 7S, 8D, TC, 6C");
+            pokerGame.AddPlayer("Player2, 6D, 2H, 6S, 5C, 5H");
+            pokerGame.AddPlayer("Player3, TH, 9D, AH, KH, 2S");
+
+            var expectedWinningPlayers = new List<Player>();
+            expectedWinningPlayers.Add(new Player("Player2, 6D, 2H, 6S, 5C, 5H"));
 
             var pokerGameWinners = pokerGame.DetermineWinningPlayers();
 

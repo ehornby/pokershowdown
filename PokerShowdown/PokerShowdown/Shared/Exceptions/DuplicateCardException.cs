@@ -4,9 +4,6 @@ namespace PokerShowdown.Shared.Exceptions
 {
     public class DuplicateCardException : Exception
     {
-        public DuplicateCardException(string message)
-        {
-            Console.WriteLine(message);
-        }
+        public DuplicateCardException(string message) : base(message) { }
     }
 }

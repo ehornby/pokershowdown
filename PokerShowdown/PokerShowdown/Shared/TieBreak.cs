@@ -15,13 +15,35 @@ namespace PokerShowdown.Shared
         {
             foreach (var player in players)
             {
-                player.Hand.Cards.Sort((a, b) => b.Rank.CompareTo(a.Rank));
+                player
+                    .Hand
+                    .Cards
+                    .Sort((a, b) => b.Rank.CompareTo(a.Rank));
             }
 
             for (int i = 0; i < Constants.Constants.HAND_SIZE; i++)
             {
-                var highestCardRankAmongAllPlayers = players.Max(player => player.Hand.Cards.Skip(i).First().Rank);
-                var playersHoldingHighestCardRank = players.Where(player => player.Hand.Cards.Skip(i).First().Rank == highestCardRankAmongAllPlayers);
+                var highestCardRankAmongAllPlayers = players
+                    .Max(
+                        player => 
+                            player
+                            .Hand
+                            .Cards
+                            .Skip(i)
+                            .First()
+                            .Rank
+                    );
+
+                var playersHoldingHighestCardRank = players
+                    .Where(
+                        player => 
+                            player
+                            .Hand
+                            .Cards
+                            .Skip(i)
+                            .First()
+                            .Rank == highestCardRankAmongAllPlayers
+                    );
 
                 var isLastCard = i == Constants.Constants.HAND_SIZE - 1;
 
@@ -29,9 +51,11 @@ namespace PokerShowdown.Shared
                 {
                     return playersHoldingHighestCardRank.ToList();
                 }
+
+                players = playersHoldingHighestCardRank.ToList();
             }
 
-            return new List<Player>();
+            return null;
         }
 
         /// <summary>
@@ -42,14 +66,22 @@ namespace PokerShowdown.Shared
         public static Player BreakThreeOfAKindTies(List<Player> players)
         {
             var highestThreeOfAKindRank = CardRank.None;
-            var playersHoldingHighestThreeOfAKind = new List<Player>();
-            var winningPlayer = new Player();
+            Player winningPlayer = null;
 
             foreach (var player in players)
             {
-                var cardsGroupedByRank = player.Hand.Cards.GroupBy(c => c.Rank);
-                var threeOfAKindGroup = cardsGroupedByRank.Where(g => g.Count() >= 3);
-                var threeOfAKindRank = threeOfAKindGroup.First().First().Rank;
+                var cardsGroupedByRank = player
+                    .Hand
+                    .Cards
+                    .GroupBy(card => card.Rank);
+
+                var threeOfAKindGroup = cardsGroupedByRank
+                    .Where(groupedCards => groupedCards.Count() >= 3)
+                    .First();
+
+                var threeOfAKindRank = threeOfAKindGroup
+                    .First()
+                    .Rank;
 
                 if (threeOfAKindRank > highestThreeOfAKindRank)
                 {
@@ -73,9 +105,20 @@ namespace PokerShowdown.Shared
 
             foreach (var player in players)
             {
-                var cardsGroupedByRank = player.Hand.Cards.GroupBy(c => c.Rank);
-                var pairGroupsSortedByDescendingRank = cardsGroupedByRank.Where(g => g.Count() == 2).OrderByDescending(g => g.Key);
-                var highestPairRank = pairGroupsSortedByDescendingRank.First().First().Rank;
+                var cardsGroupedByRank = player
+                    .Hand
+                    .Cards
+                    .GroupBy(c => c.Rank);
+
+                var pairGroupsSortedByDescendingRank = cardsGroupedByRank
+                    .Where(g => g.Count() == 2)
+                    .OrderByDescending(g => g.Key);
+
+                var highestPairGroup = pairGroupsSortedByDescendingRank.First();
+
+                var highestPairRank = highestPairGroup
+                    .First()
+                    .Rank;
 
                 if (highestPairRank > highestPairAmongAllPlayers)
                 {

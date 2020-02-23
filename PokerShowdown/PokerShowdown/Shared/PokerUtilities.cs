@@ -23,7 +23,9 @@ namespace PokerShowdown.Shared
         /// <returns>Bool representing whether or not three of a kind is found</returns>
         public static bool IsThreeOfAKind(List<Card> cards)
         {
-            return cards.GroupBy(c => c.Rank).Any(g => g.Count() >= 3);
+            return cards
+                .GroupBy(c => c.Rank)
+                .Any(g => g.Count() >= 3);
         }
 
         /// <summary>
@@ -33,7 +35,9 @@ namespace PokerShowdown.Shared
         /// <returns>Bool representing whether or not one pair is found</returns>
         public static bool IsOnePair(List<Card> cards)
         {
-            return cards.GroupBy(c => c.Rank).Any(g => g.Count() == 2);
+            return cards
+                .GroupBy(c => c.Rank)
+                .Any(g => g.Count() == 2);
         }
     }
 }

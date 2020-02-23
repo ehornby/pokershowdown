@@ -4,9 +4,6 @@ namespace PokerShowdown.Shared.Exceptions
 {
     public class SuitNotValidException : Exception
     {
-        public SuitNotValidException(string message)
-        {
-            Console.WriteLine(message);
-        }
+        public SuitNotValidException(string message) : base(message) { }
     }
 }

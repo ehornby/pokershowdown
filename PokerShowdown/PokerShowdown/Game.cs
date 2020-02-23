@@ -14,24 +14,20 @@ namespace PokerShowdown.Shared
         }
 
         /// <summary>
-        /// Compares Hands from each Player and sets WinningPlayers property
+        /// Compares hands from each player
         /// </summary>
+        /// <returns>List<Player> of all winning players</returns>
         public List<Player> DetermineWinningPlayers()
         {
             var winningHand = Players.Max(p => p.Hand.HandRank);
-            var winningPlayers = new List<Player>();
             var playersWithHighestRankedHand = Players.Where(p => p.Hand.HandRank == winningHand).ToList();
 
             if (playersWithHighestRankedHand.Count == 1)
             {
-                winningPlayers = playersWithHighestRankedHand;
+                return playersWithHighestRankedHand;
             }
-            else
-            {
-                winningPlayers = TieBreakHands(playersWithHighestRankedHand);
-            }
-
-            return winningPlayers;
+            
+            return TieBreakHands(playersWithHighestRankedHand);
         }
 
         /// <summary>
@@ -43,20 +39,28 @@ namespace PokerShowdown.Shared
             Players.Add(new Player(playerData));
         }
 
-        public List<Player> TieBreakHands(List<Player> playersWithHighestRankedHand)
+        /// <summary>
+        /// Breaks ties when multiple players have the same hand rank
+        /// </summary>
+        /// <param name="playersWithSameHandRank">List<Player> of players with the highest ranked hand</param>
+        /// <returns>List<Player> of winning players</returns>
+        public List<Player> TieBreakHands(List<Player> playersWithSameHandRank)
         {
-            var handTypeToTieBreak = playersWithHighestRankedHand.First().Hand.HandRank;
+            var handTypeToTieBreak = playersWithSameHandRank
+                .First()
+                .Hand
+                .HandRank;
             
             switch (handTypeToTieBreak)
             {
                 case HandRank.Flush:
-                    return TieBreak.BreakHighCardOrFlushTies(playersWithHighestRankedHand);
+                    return TieBreak.BreakHighCardOrFlushTies(playersWithSameHandRank);
                 case HandRank.ThreeOfAKind:
-                    return new List<Player> { TieBreak.BreakThreeOfAKindTies(playersWithHighestRankedHand) };
+                    return new List<Player> { TieBreak.BreakThreeOfAKindTies(playersWithSameHandRank) };
                 case HandRank.OnePair:
-                    return TieBreak.BreakOnePairTies(playersWithHighestRankedHand);
+                    return TieBreak.BreakOnePairTies(playersWithSameHandRank);
                 case HandRank.HighCard:
-                    return TieBreak.BreakHighCardOrFlushTies(playersWithHighestRankedHand);
+                    return TieBreak.BreakHighCardOrFlushTies(playersWithSameHandRank);
                 default:
                     return new List<Player>();
             }

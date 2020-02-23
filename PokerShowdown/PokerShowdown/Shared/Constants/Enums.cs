@@ -22,10 +22,10 @@ namespace PokerShowdown.Shared.Constants
 
     public enum HandRank
     {
-        [Description("High Card")] HighCard,
-        [Description("One Pair")] OnePair,
-        [Description("Three of a Kind")] ThreeOfAKind,
-        [Description("Flush")] Flush
+        HighCard,
+        OnePair,
+        ThreeOfAKind,
+        Flush
     }
 
     public enum Suit
